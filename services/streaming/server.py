@@ -99,8 +99,8 @@ def process_words_rdd(time, rdd):
         # extract the hashtags from dataframe and convert them into array
         top_tags = [str(t.word) for t in trendigs_df.select("word").collect()]
         # extract the counts from dataframe and convert them into array
-        tags_count = [p.word_count for p in trendigs_df.select(
-            f"word_count").collect()]
+        tags_count = [p.word_count for p in trendigs_df.select("word_count").collect()]
+        
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
         requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataWord', data=request_data)
@@ -135,7 +135,7 @@ if __name__ == "__main__":
     ssc = StreamingContext(sc, 2)
     
 	# setting a checkpoint to allow RDD recovery
-    ssc.checkpoint(f"{os.environ[HDFS]}/checkpoint")
+    ssc.checkpoint({os.environ[HDFS]}+ "/checkpoint")
 
     # read data from port 9009
     dataStream = ssc.socketTextStream(os.environ[TWITTER_CLIENT], int(os.environ[TWITTER_PORT]))
