@@ -22,7 +22,6 @@ TWITTER_PORT = "TWITTER_PORT"
 DASHBOARD_CLIENT = "DASHBOARD_CLIENT"
 DASHBOARD_PORT = "DASHBOARD_PORT"
 
-SPARK_MASTER = "SPARK_MASTER"
 SPARK_MASTER_HOST = "SPARK_MASTER_HOST"
 SPARK_MASTER_PORT = "SPARK_MASTER_PORT"
 SPARK_DRIVER_PORT = "SPARK_DRIVER_PORT"
@@ -120,12 +119,11 @@ if __name__ == "__main__":
         .appName("streaming")
         .config("spark.driver.port", os.environ[SPARK_DRIVER_PORT])
         .config("spark.driver.host", os.environ[SAMPLE_HOST_NAME])
-        .master(os.environ[SPARK_MASTER])
-        # .master("spark://"
-        #         + os.environ[SPARK_MASTER_HOST]
-        #         + ":"
-        #         + str(os.environ[SPARK_MASTER_PORT])
-        #         )
+        .master("spark://"
+                + os.environ[SPARK_MASTER_HOST]
+                + ":"
+                + str(os.environ[SPARK_MASTER_PORT])
+                )
         .getOrCreate()
     )
 

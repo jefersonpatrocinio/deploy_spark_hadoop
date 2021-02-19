@@ -43,9 +43,6 @@ services:
       - "41100:41100"
     environment:
       CORE_CONF_fs_defaultFS: "hdfs://namenode:8020"
-      SPARK_MASTER: "spark://spark-master:7077"
-      MASTER: "spark://spark-master:7077"
-      SPARK_SUBMIT_OPTIONS: ""
     env_file:
       - ./hadoop.env
     deploy: *default-deploy-worker
@@ -75,7 +72,7 @@ services:
       - NAMENODE_HOST=namenode
     networks:
       - workbench
-      
+
 volumes:
   portainer_data:
 
