@@ -22,7 +22,7 @@ TWITTER_PORT = "TWITTER_PORT"
 DASHBOARD_CLIENT = "DASHBOARD_CLIENT"
 DASHBOARD_PORT = "DASHBOARD_PORT"
 
-SPARK_MASTER_HOST = "SPARK_MASTER_HOST"
+SPARK_MASTER_HOST = "SPARK_MASTER_NAME"
 SPARK_MASTER_PORT = "SPARK_MASTER_PORT"
 SPARK_DRIVER_PORT = "SPARK_DRIVER_PORT"
 
@@ -100,7 +100,7 @@ def process_words_rdd(time, rdd):
         top_tags = [str(t.word) for t in trendigs_df.select("word").collect()]
         # extract the counts from dataframe and convert them into array
         tags_count = [p.word_count for p in trendigs_df.select("word_count").collect()]
-        
+
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
         requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataWord', data=request_data)

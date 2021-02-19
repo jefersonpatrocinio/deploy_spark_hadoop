@@ -1,4 +1,4 @@
-FROM bde2020/spark-python-template:2.2.0-hadoop2.7
+FROM spark_task_image
 
 ONBUILD COPY requirements.txt /app/
 ONBUILD RUN cd /app \
@@ -25,4 +25,4 @@ ENV DASHBOARD_CLIENT "dashboards"
 ENV DASHBOARD_PORT 5009
 
 
-ENV SPARK_APPLICATION_PYTHON_LOCATION /app/server.py
+CMD ["python", "/app/server.py"]
