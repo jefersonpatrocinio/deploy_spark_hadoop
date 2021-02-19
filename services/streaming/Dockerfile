@@ -5,6 +5,7 @@ COPY . /usr/src/stream
 
 RUN pip install flask==1.1.2
 RUN pip install requests
+RUN pip install pyspark
 
 ENV HDFS_HOST_NAME = "namenode"
 ENV HDFS_HOST_PORT 8020
