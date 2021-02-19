@@ -7,5 +7,5 @@ hadoop:
 spark:
 	docker stack deploy -c docker-compose-spark.yml spark
 
-services:
+app:
 	docker stack deploy -c docker-compose-services.yml app
