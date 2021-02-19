@@ -1,19 +1,10 @@
-FROM bde2020/spark-base:3.0.1-hadoop3.2
+FROM spark_task_image
 
 WORKDIR /usr/src/stream
 COPY . /usr/src/stream
 
 RUN pip install flask==1.1.2
 RUN pip install requests
-
-ENV SPARK_VERSION 3.0.1
-ENV SPARK_INSTALL /usr/local
-ENV SPARK_HOME $SPARK_INSTALL/spark
-ENV HADOOP_VERSION 3.2
-ENV PYSPARK_PYTHON python3
-ENV PYSPARK_DRIVER_PYTHON python3
-
-RUN pip install pyspark==$SPARK_VERSION
 
 ENV HDFS_HOST_NAME = "namenode"
 ENV HDFS_HOST_PORT 8020
