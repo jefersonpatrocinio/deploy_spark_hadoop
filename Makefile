@@ -9,6 +9,3 @@ spark:
 
 app:
 	docker stack deploy -c docker-compose-services.yml app
-
-portainer:
-	docker stack deploy --compose-file=docker-compose-portainer.yml portainer
