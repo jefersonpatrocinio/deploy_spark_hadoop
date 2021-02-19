@@ -22,6 +22,12 @@ x-deploy-worker: &default-deploy-worker
 services:
   spark-master:
     image: bde2020/spark-master:2.2.0-hadoop2.8-hive-java8
+    hostname: spark-master
+    extra_hosts:
+      - "spark-master:0.0.0.0"
+    ports:
+      - "8080:8080"
+      - "7077:7077"
     networks:
       - workbench
     deploy: *default-deploy-worker
@@ -30,6 +36,11 @@ services:
 
   spark-worker:
     image: bde2020/spark-worker:2.2.0-hadoop2.8-hive-java8
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    ports:
+      - "8081:8081"
     networks:
       - workbench
     environment:

@@ -23,10 +23,12 @@ services:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
     networks:
       - workbench
+    ports:
+      - 50070:50070
     volumes:
       - namenode:/hadoop/dfs/name
     environment:
-      - CLUSTER_NAME=test
+      - CLUSTER_NAME=swarm
     env_file:
       - ./hadoop.env
     deploy: *default-deploy-manager
@@ -42,6 +44,8 @@ services:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
+    ports:
+      - 50075:50075
     deploy: *default-deploy-worker
 
 
