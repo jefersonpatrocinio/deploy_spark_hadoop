@@ -71,7 +71,7 @@ def process_hashtags_rdd(time, rdd):
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
 
-        requests.post(f'http://{os.environ[DASHBOARD_CLIENT]}:{os.environ[DASHBOARD_PORT]}/updateDataHashtag', data=request_data)
+        requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataHashtag', data=request_data)
 
     except Exception as e:
         print("Error: %s" % e)
@@ -103,7 +103,7 @@ def process_words_rdd(time, rdd):
             f"word_count").collect()]
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
-        requests.post(f'http://{os.environ[DASHBOARD_CLIENT]}:{os.environ[DASHBOARD_PORT]}/updateDataWord', data=request_data)
+        requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataWord', data=request_data)
 
     except Exception as e:
         print("Error: %s" % e)
