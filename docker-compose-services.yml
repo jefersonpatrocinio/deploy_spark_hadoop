@@ -1,5 +1,40 @@
-version: '3'
+version: '3.8'
+
+x-deploy: &default-deploy
+  replicas: 1
+  restart_policy:
+    condition: on-failure
+
+
+x-deploy-manager: &default-deploy-manager
+  <<: *default-deploy
+  placement:
+    constraints:
+      - "node.role==manager"
+
+x-deploy-worker: &default-deploy-worker
+  <<: *default-deploy
+  placement:
+    constraints:
+      - "node.role==worker"
+
+
 services:
+
+  portainer:
+    image: portainer/portainer
+    container_name: portainer
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    ports:
+      - 9000:9000
+      - 8000:8000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    deploy: *default-deploy-manager
+
+
   streaming:
     image: streaming_image
     extra_hosts:
@@ -14,14 +49,7 @@ services:
       SPARK_SUBMIT_OPTIONS: ""
     env_file:
       - ./hadoop.env
-    deploy:
-      replicas: 1
-      mode: replicated
-      restart_policy:
-        condition: on-failure
-      labels:
-        traefik.docker.network: workbench
-        traefik.port: 8080
+    deploy: *default-deploy-worker
     networks:
       - workbench
 
@@ -31,14 +59,7 @@ services:
       - "dashboards:0.0.0.0"
     ports:
       - "5009:5009"
-    deploy:
-      replicas: 1
-      mode: replicated
-      restart_policy:
-        condition: on-failure
-      labels:
-        traefik.docker.network: workbench
-        traefik.port: 8088
+    deploy: *default-deploy-worker
     environment:
       - NAMENODE_HOST=namenode
     networks:
@@ -50,14 +71,7 @@ services:
       - "twitter:0.0.0.0"
     ports:
       - "9017:9017"
-    deploy:
-      replicas: 1
-      mode: replicated
-      restart_policy:
-        condition: on-failure
-      labels:
-        traefik.docker.network: workbench
-        traefik.port: 8088
+    deploy: *default-deploy-worker
     environment:
       - NAMENODE_HOST=namenode
     networks:

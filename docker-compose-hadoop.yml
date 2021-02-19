@@ -1,4 +1,23 @@
-version: '3'
+version: '3.8'
+
+x-deploy: &default-deploy
+  replicas: 1
+  restart_policy:
+    condition: on-failure
+
+
+x-deploy-manager: &default-deploy-manager
+  <<: *default-deploy
+  placement:
+    constraints:
+      - "node.role==manager"
+
+x-deploy-worker: &default-deploy-worker
+  <<: *default-deploy
+  placement:
+    constraints:
+      - "node.role==worker"
+
 services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
@@ -10,15 +29,7 @@ services:
       - CLUSTER_NAME=test
     env_file:
       - ./hadoop.env
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-      # add placement constraint to allocate namenode on particular server
-      #placement:
-      #  constraints:
-      #    - node.hostname == master.node.com
+    deploy: *default-deploy-manager
       labels:
         traefik.docker.network: workbench
         traefik.port: 50070
@@ -33,14 +44,8 @@ services:
       - ./hadoop.env
     environment:
       SERVICE_PRECONDITION: "namenode:50070"
-    deploy:
-      # mode global will deploy one datanode per docker swarm node
-      mode: global
-      restart_policy:
-        condition: on-failure
-      labels:
-        traefik.docker.network: workbench
-        traefik.port: 50075
+    deploy: *default-deploy-worker
+
 
 volumes:
   datanode:
