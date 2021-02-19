@@ -1,11 +1,11 @@
+
 FROM spark_task_image
 
-ONBUILD COPY requirements.txt /app/
-ONBUILD RUN cd /app \
-      && pip3 install -r requirements.txt
+WORKDIR /usr/src/stream
+COPY . /usr/src/stream
 
-# Copy the source code
-ONBUILD COPY . /app
+RUN pip install flask==1.1.2
+RUN pip install requests
 
 ENV HDFS_HOST_NAME = "namenode"
 ENV HDFS_HOST_PORT 8020
@@ -24,5 +24,4 @@ ENV TWITTER_PORT 9017
 ENV DASHBOARD_CLIENT "dashboards"
 ENV DASHBOARD_PORT 5009
 
-
-CMD ["python", "/app/server.py"]
+CMD ["python", "server.py"]
