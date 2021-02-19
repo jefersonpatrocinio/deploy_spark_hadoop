@@ -67,8 +67,7 @@ def process_hashtags_rdd(time, rdd):
         # extract the hashtags from dataframe and convert them into array
         top_tags = [str(t.hashtag) for t in hashtag_counts_df.select("hashtag").collect()]
         # extract the counts from dataframe and convert them into array
-        tags_count = [p.hashtag_count for p in hashtag_counts_df.select(
-            f"hashtag_count").collect()]
+        tags_count = [p.hashtag_count for p in hashtag_counts_df.select(f"hashtag_count").collect()]
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
         requests.post(f'http://{os.environ[DASHBOARD_CLIENT]}:{os.environ[DASHBOARD_PORT]}/updateDataHashtag', data=request_data)
