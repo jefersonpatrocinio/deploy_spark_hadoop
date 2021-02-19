@@ -1,4 +1,4 @@
-FROM spark_task_image
+FROM bde2020/spark-base:3.0.1-hadoop3.2
 
 WORKDIR /usr/src/stream
 COPY . /usr/src/stream
