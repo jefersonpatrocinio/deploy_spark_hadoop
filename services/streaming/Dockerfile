@@ -1,10 +1,11 @@
-FROM spark_task_image
+FROM bde2020/spark-python-template:2.2.0-hadoop2.7
 
-WORKDIR /usr/src/stream
-COPY . /usr/src/stream
+ONBUILD COPY requirements.txt /app/
+ONBUILD RUN cd /app \
+      && pip3 install -r requirements.txt
 
-RUN pip install flask==1.1.2
-RUN pip install requests
+# Copy the source code
+ONBUILD COPY . /app
 
 ENV HDFS_HOST_NAME = "namenode"
 ENV HDFS_HOST_PORT 8020
@@ -13,7 +14,7 @@ ENV SAMPLE_HOST_NAME "streaming"
 ENV SAMPLE_HOST_PORT 5005
 ENV SAMPLE_HOST_IP "0.0.0.0"
 
-ENV SPARK_MASTER_HOST "spark-master"
+ENV SPARK_MASTER_NAME "spark-master"
 ENV SPARK_MASTER_PORT 7077
 ENV SPARK_DRIVER_PORT 41100
 
@@ -24,4 +25,4 @@ ENV DASHBOARD_CLIENT "dashboards"
 ENV DASHBOARD_PORT 5009
 
 
-CMD ["python", "server.py"]
+ENV SPARK_APPLICATION_PYTHON_LOCATION /app/server.py
