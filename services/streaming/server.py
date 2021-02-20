@@ -66,7 +66,7 @@ def process_hashtags_rdd(time, rdd):
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
 
-        requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataHashtag', data=request_data)
+        requests.post('http://' + os.environ[DASHBOARD_CLIENT] + ':' + os.environ[DASHBOARD_PORT] + '/updateDataHashtag', data=request_data)
 
     except Exception as e:
         print("Error: %s" % e)
@@ -98,7 +98,7 @@ def process_words_rdd(time, rdd):
 
         # initialize and send the data through REST API
         request_data = {'label': str(top_tags), 'data': str(tags_count)}
-        requests.post('http://' + {os.environ[DASHBOARD_CLIENT]} + ':' + {os.environ[DASHBOARD_PORT]} + '/updateDataWord', data=request_data)
+        requests.post('http://' + os.environ[DASHBOARD_CLIENT] + ':' + os.environ[DASHBOARD_PORT] + '/updateDataWord', data=request_data)
 
     except Exception as e:
         print("Error: %s" % e)
@@ -130,7 +130,7 @@ if __name__ == "__main__":
     ssc = StreamingContext(sc, 2)
     
 	# setting a checkpoint to allow RDD recovery
-    ssc.checkpoint({os.environ[HDFS]}+ "/checkpoint")
+    ssc.checkpoint(os.environ[HDFS]+ "/checkpoint")
 
     # read data from port 9009
     dataStream = ssc.socketTextStream(os.environ[TWITTER_CLIENT], int(os.environ[TWITTER_PORT]))
