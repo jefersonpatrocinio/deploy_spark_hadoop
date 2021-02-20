@@ -6,8 +6,9 @@ x-deploy: &default-deploy
     condition: on-failure
 
 x-deploy-datanode: &default-deploy-datanode
-  <<: *default-deploy
-    mode: global
+  mode: global
+  restart_policy:
+    condition: on-failure
 
 x-deploy-manager: &default-deploy-manager
   <<: *default-deploy
