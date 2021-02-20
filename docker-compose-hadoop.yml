@@ -46,7 +46,7 @@ services:
       SERVICE_PRECONDITION: "namenode:50070"
     ports:
       - 50075:50075
-    deploy: *default-deploy-worker
+    deploy: *default-deploy-manager
 
 
 volumes:
