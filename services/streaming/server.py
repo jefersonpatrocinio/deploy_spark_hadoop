@@ -1,6 +1,4 @@
-from pyspark import SparkConf, SparkContext
 from pyspark.streaming import StreamingContext
-from pyspark.context import SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql import Row, SQLContext
 
@@ -11,10 +9,7 @@ from requests.models import Response
 
 HDFS = "CORE_CONF_fs_defaultFS"
 
-SAMPLE_HOST_IP = "SAMPLE_HOST_IP"
-SAMPLE_HOST_PORT = "SAMPLE_HOST_PORT"
-SAMPLE_HOST_NAME = "SAMPLE_HOST_NAME"
-
+APP_HOST_NAME = "APP_HOST_NAME"
 
 TWITTER_CLIENT = "TWITTER_CLIENT"
 TWITTER_PORT = "TWITTER_PORT"
@@ -118,7 +113,7 @@ if __name__ == "__main__":
         .builder
         .appName("streaming")
         .config("spark.driver.port", os.environ[SPARK_DRIVER_PORT])
-        .config("spark.driver.host", os.environ[SAMPLE_HOST_NAME])
+        .config("spark.driver.host", os.environ[APP_HOST_NAME])
         .master("spark://"
                 + os.environ[SPARK_MASTER_HOST]
                 + ":"
