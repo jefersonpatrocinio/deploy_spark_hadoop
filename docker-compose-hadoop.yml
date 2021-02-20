@@ -5,6 +5,9 @@ x-deploy: &default-deploy
   restart_policy:
     condition: on-failure
 
+x-deploy-datanode: &default-deploy-datanode
+  <<: *default-deploy
+    mode: global
 
 x-deploy-manager: &default-deploy-manager
   <<: *default-deploy
@@ -47,7 +50,7 @@ services:
     ports:
       - 50075:50075
       - 50010:50010
-    deploy: *default-deploy-manager
+    deploy: *default-deploy-datanode
 
 
 volumes:
