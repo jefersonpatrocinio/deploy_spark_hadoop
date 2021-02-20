@@ -1,9 +1,9 @@
-FROM bde2020/spark-submit2.4.0-hadoop2.8
+FROM spark_task_image
 
 WORKDIR /usr/src/stream
 COPY . /usr/src/stream
 
-RUN pip3 install -r requirements.txt
+RUN pip install -r requirements.txt
 
 ENV HDFS_HOST_NAME = "namenode"
 ENV HDFS_HOST_PORT 8020
